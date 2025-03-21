@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\C++ Projects\SDL Files\SDL3_image-devel-3.2.4-VC\SDL3_image-3.2.4\include;D:\C++ Projects\SDL Files\SDL3-devel-3.2.8-VC\SDL3-3.2.8\include;D:\C++ Projects\SDL Files\SDL3_ttf-devel-3.2.0-VC\SDL3_ttf-3.2.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\C++ Projects\SDL Files\SDL3_image-devel-3.2.4-VC\SDL3_image-3.2.4\lib\x64;D:\C++ Projects\SDL Files\SDL3-devel-3.2.8-VC\SDL3-3.2.8\lib\x64;D:\C++ Projects\SDL Files\SDL3_ttf-devel-3.2.0-VC\SDL3_ttf-3.2.0\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\C++\SDL Files\SDL3_image-devel-3.2.4-VC\SDL3_image-3.2.4\include;D:\C++\SDL Files\SDL3-devel-3.2.8-VC\SDL3-3.2.8\include;D:\C++\SDL Files\SDL3_ttf-devel-3.2.0-VC\SDL3_ttf-3.2.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\C++\SDL Files\SDL3_image-devel-3.2.4-VC\SDL3_image-3.2.4\lib\x64;D:\C++\SDL Files\SDL3-devel-3.2.8-VC\SDL3-3.2.8\lib\x64;D:\C++\SDL Files\SDL3_ttf-devel-3.2.0-VC\SDL3_ttf-3.2.0\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>D:\C++ Projects\SDL Files\SDL3_image-devel-3.2.4-VC\SDL3_image-3.2.4\include;D:\C++ Projects\SDL Files\SDL3-devel-3.2.8-VC\SDL3-3.2.8\include;D:\C++ Projects\SDL Files\SDL3_ttf-devel-3.2.0-VC\SDL3_ttf-3.2.0\include;$(IncludePath)</IncludePath>
