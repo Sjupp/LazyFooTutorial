@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL3/SDL_render.h>
 #include "LTexture.h"
+#include <array>
 
 class PuzzlePiece
 {
@@ -10,8 +11,11 @@ public:
 	PuzzlePiece();
 
 	void rotateClockwise();
+	std::pair<int, int> getCoordinates();
+	void setCoordinates(int x, int y);
+	std::array<std::pair<int, int>, 4> getShapeCoordinates();
+
 	// split (land?)
-	// getShape / getOccupyingGridSlots
 private:
 	int mShape[4][4]
 	{
@@ -21,7 +25,9 @@ private:
 		{ 0, 0, 0 ,0 }
 	};
 
-	bool fourPiece = false;
+	bool mFourPiece = false;
+	int xGridPosition = 0;
+	int yGridPosition = 0;
 };
 
-// TOOD: Squiggly pieces, like straight pieces, only need 2 rotation, not 4
+// TOOD: Squiggly pieces, like straight pieces, only need 2 rotation, not 4 

@@ -9,7 +9,7 @@ PuzzlePiece::PuzzlePiece()
 void PuzzlePiece::rotateClockwise()
 {
     int indexSize = 3;
-    if (fourPiece)
+    if (mFourPiece)
     {
         indexSize = 4;
     }
@@ -35,4 +35,33 @@ void PuzzlePiece::rotateClockwise()
     }
     debugText << "\n";
     SDL_Log(debugText.str().c_str());
+}
+
+std::pair<int, int> PuzzlePiece::getCoordinates()
+{
+    return std::pair<int, int> { xGridPosition, yGridPosition };
+}
+
+void PuzzlePiece::setCoordinates(int x, int y)
+{
+    xGridPosition = x;
+    yGridPosition = y;
+}
+
+std::array<std::pair<int, int>, 4> PuzzlePiece::getShapeCoordinates()
+{
+    std::array<std::pair<int, int>, 4> coordinates{};
+    int count = 0;
+
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (mShape[i][j] == 1) {
+                coordinates[count++] = { i, j }; // Save coordinate
+                if (count == 4) break; // Stop once we find 4
+            }
+        }
+        if (count == 4) break; // Stop early if all 4 are found
+    }
+
+    return coordinates;
 }

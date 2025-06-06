@@ -27,9 +27,8 @@ SDL_Window* gWindow{ nullptr };
 SDL_Renderer* gRenderer{ nullptr };
 KeyboardHandler* gKeyboardHandler{ nullptr };
 
-LTexture gPngTexture;
+//LTexture gPngTexture;
 LTexture gSheetTexture;
-LTexture gUpTexture, gDownTexture, gLeftTexture, gRightTexture;
 LTexture gBoxTexture;
 
 TTF_Font* gFont{ nullptr };
@@ -73,13 +72,8 @@ bool loadMedia()
 {
 	bool success{ true };
 
-	success = gPngTexture.loadFromFile(gRenderer, "dot.png", true);
-	//success = gPngTexture.loadFromFile(gRenderer, "guy.png", true);
+	//success = gPngTexture.loadFromFile(gRenderer, "dot.png", true);
 	success = gSheetTexture.loadFromFile(gRenderer, "dots.png", true);
-	success = gUpTexture.loadFromFile(gRenderer, "up.png");
-	success = gDownTexture.loadFromFile(gRenderer, "down.png");
-	success = gLeftTexture.loadFromFile(gRenderer, "left.png");
-	success = gRightTexture.loadFromFile(gRenderer, "right.png");
 	success = gBoxTexture.loadFromFile(gRenderer, "PuzzleSquare16.png", true);
 
 	std::string fontPath = "assets/lazy.ttf";
@@ -104,12 +98,8 @@ bool loadMedia()
 
 void close()
 {
-	gPngTexture.destroy();
+	//gPngTexture.destroy();
 	gSheetTexture.destroy();
-	gUpTexture.destroy();
-	gDownTexture.destroy();
-	gLeftTexture.destroy();
-	gRightTexture.destroy();
 	gTextTexture.destroy();
 	gBoxTexture.destroy();
 
@@ -148,7 +138,6 @@ int main(int argc, char* argv[]) {
 			SDL_Event e;
 			SDL_zero(e);
 
-			LTexture* currentTexture = &gUpTexture;
 			KeyboardHandler keyHandler;
 			LTimer timer;
 
@@ -160,12 +149,14 @@ int main(int argc, char* argv[]) {
 			Uint64 renderingNS = 0;
 			bool resetFps = true;
 			std::stringstream timeText;
-			double degrees = 0.0;
-
-			Dot dot(gPngTexture.getWidth(), gPngTexture.getHeight());
+			
+			//double degrees = 0.0;
+			//Dot dot(gPngTexture.getWidth(), gPngTexture.getHeight());
 
 			PuzzlePiece puzzlePiece;
 			PuzzleGrid puzzleGrid;
+
+			puzzleGrid.tryAddPuzzlePieceToGrid(&puzzlePiece, 5, 5);
 
 			while (quit == false)
 			{
@@ -196,31 +187,12 @@ int main(int argc, char* argv[]) {
 						break;
 					}
 
-					dot.handleEvent(e);
+					//dot.handleEvent(e);
 				}
-
-				//if (keyHandler.isPressedThisFrame(SDLK_DOWN))
-				//{
-				//	SDL_Log("Down is pressed this frame");
-				//	timer.start();
-				//}
-				//if (keyHandler.isReleasedThisFrame(SDLK_DOWN))
-				//{
-				//	SDL_Log("Down is released this frame");
-				//	auto number = timer.getTicksNS() / 1000000;
-				//	SDL_Log("Time held: %s", std::to_string(number).c_str());
-				//	timer.stop();
-				//}
-				//if (keyHandler.isPressed(SDLK_DOWN))
-				//{
-				//	SDL_Log("Down is pressed");
-				//}
-
 				if (keyHandler.isPressedThisFrame(SDLK_SPACE))
 				{
 					puzzlePiece.rotateClockwise();
 				}
-
 				if (keyHandler.isPressedThisFrame(SDLK_1))
 				{
 					vSyncEnabled = !vSyncEnabled;
@@ -232,9 +204,18 @@ int main(int argc, char* argv[]) {
 					fpsCapEnabled = !fpsCapEnabled;
 					resetFps = true;
 				}
+				if (keyHandler.isPressedThisFrame(SDLK_LEFT))
+				{
+					auto coords = puzzlePiece.getCoordinates();
+					puzzleGrid.tryMovePuzzlePieceToGridPosition(&puzzlePiece, coords.first - 1, coords.second);
+				}
+				if (keyHandler.isPressedThisFrame(SDLK_LEFT))
+				{
+					auto coords = puzzlePiece.getCoordinates();
+					puzzleGrid.tryMovePuzzlePieceToGridPosition(&puzzlePiece, coords.first + 1, coords.second);
+				}
 
-				dot.move();
-
+				//dot.move();
 				timeText.str("");
 				timeText << "Frames per second "
 					<< (vSyncEnabled ? "VSYNC " : "")
@@ -244,20 +225,23 @@ int main(int argc, char* argv[]) {
 				SDL_Color textColor = { 0x00, 0x00, 0x00, 0xFF };
 				gTextTexture.loadFromRenderedText(gRenderer, gFont, timeText.str().c_str(), textColor);
 
+				// ------------------- Render Begin -------------------
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(gRenderer);
 
-				degrees += 0.1;
-
 				//dot.handleEvent()
-				dot.render(gRenderer, &gPngTexture);
+				//dot.render(gRenderer, &gPngTexture);
+				//degrees += 0.1;
+				//gPngTexture.render(gRenderer, 0.f, 0.f, nullptr, LTexture::kOriginalSize, LTexture::kOriginalSize, degrees, nullptr, SDL_FLIP_NONE);
+				
+				gTextTexture.render(gRenderer, (ScreenDimensions::kScreenWidth - gTextTexture.getWidth()) / 2.f, (ScreenDimensions::kScreenHeight - gTextTexture.getHeight())/ 2.f);
+				
 				puzzleGrid.render(gRenderer, &gBoxTexture);
 
-				gPngTexture.render(gRenderer, 0.f, 0.f, nullptr, LTexture::kOriginalSize, LTexture::kOriginalSize, degrees, nullptr, SDL_FLIP_NONE);
-
-				gTextTexture.render(gRenderer, (ScreenDimensions::kScreenWidth - gTextTexture.getWidth()) / 2.f, (ScreenDimensions::kScreenHeight - gTextTexture.getHeight())/ 2.f);
 
 				SDL_RenderPresent(gRenderer);
+				// ------------------- Render End -------------------
+
 
 				renderingNS = fpsTimer.getTicksNS();
 				renderedFrames++;
